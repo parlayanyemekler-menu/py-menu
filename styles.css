@@ -1,0 +1,136 @@
+/* Basit, modern bir görünüm */
+:root{
+  --bg:#0b0c10;       /* siyah taban */
+  --card:#111827;     /* lacivertimsi kart */
+  --text:#fdfdfd;     /* açık metin */
+  --muted:#cbd5e1;    /* gri/mavi yardımcı */
+  --primary:#f97316;  /* turuncu */
+  --accent:#3b82f6;   /* mavi */
+  --highlight:#facc15;/* sarı */
+  --border:#1e293b;   /* koyu çizgi */
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji;}
+.container{width:min(1100px,92%);margin-inline:auto}
+.navbar{display:flex;align-items:center;justify-content:center;padding:16px 0}
+.logo {
+  display: block;
+  margin: 0 auto;   /* ortalar */
+  height: 80px;     /* boyunu büyüt */
+  width: auto;      /* orantıyı korur */
+}
+
+.brand{font-weight:800;letter-spacing:.3px}
+.nav-actions{display:flex;gap:10px;align-items:center}
+.btn{display:inline-block;padding:10px 14px;border:1px solid var(--border);border-radius:12px;background:linear-gradient(180deg,#0f141a,#0b0f14);color:var(--text);text-decoration:none}
+.btn:hover{border-color:var(--accent)}
+.dropdown{position:relative}
+.dropdown-menu{position:absolute;right:0;top:115%;display:none;background:var(--card);border:1px solid var(--border);border-radius:12px;min-width:180px;padding:8px}
+.dropdown:hover .dropdown-menu{display:block}
+.dropdown-menu a{display:block;color:var(--text);text-decoration:none;padding:8px;border-radius:8px}
+.dropdown-menu a:hover{background:#0e141b}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px}
+.grid{display:grid;gap:14px}
+.grid.cols-7{grid-template-columns:repeat(7,1fr)}
+.grid.auto-fill{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+.kicker{color:var(--muted);font-size:14px;margin-bottom:6px}
+.h1{font-size:28px;font-weight:800;margin:0 0 6px}
+.p{color:var(--muted);margin:0}
+.footer{padding:18px 0 48px;color:var(--muted)}
+.tag{display:inline-block;padding:4px 8px;border-radius:999px;border:1px solid var(--border);color:var(--muted);font-size:12px}
+.tags{display:flex;gap:8px;flex-wrap:wrap}
+.calendar{overflow:hidden}
+.calendar .day-header{color:var(--muted);font-weight:700;text-align:center;padding:8px 0;border-bottom:1px solid var(--border)}
+.calendar .cell{min-height:120px;border:1px solid var(--border);border-radius:12px;padding:8px;background:linear-gradient(180deg,#0f141a,#0b0f14)}
+.calendar .cell .date{font-size:12px;color:var(--muted);display:flex;justify-content:space-between;align-items:center}
+.calendar .cell a{color:var(--primary);text-decoration:none}
+.calendar .cell .meal{margin-top:6px;font-size:14px;line-height:1.35}
+.calendar .cell:hover{outline:1px solid var(--accent)}
+.meal-list li{margin:6px 0}
+.week-nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.week-nav a{padding:6px 10px;border:1px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text)}
+.week-nav a.active{border-color:var(--accent)}
+.home-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px}
+.badge{padding:2px 8px;border:1px solid var(--border);border-radius:8px;margin-left:8px;font-size:12px;color:var(--muted)}
+
+/* THEME EXTENSIONS */
+
+.h1{color:var(--primary)}
+.kicker{color:var(--accent)}
+a{color:var(--accent)}
+.btn{background:var(--primary);color:#000;border-color:var(--highlight);font-weight:700}
+.btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.dropdown-menu a:hover{background:var(--highlight);color:#000}
+.calendar .cell:hover{outline:2px solid var(--highlight)}
+.tag{border-color:var(--highlight);color:#000;background:linear-gradient(180deg,#fde68a,#facc15)}
+.tag:hover{filter:brightness(.95)}
+
+
+/* === Mobile-first responsive adjustments === */
+.container{width:min(100%, 960px); padding-inline: 12px}
+.btn{min-height:44px; line-height:1.1}
+
+/* Calendar: keep 7 columns but allow comfortable hit areas and horizontal scroll on small screens */
+.calendar{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.calendar .grid.cols-7{grid-template-columns:repeat(7, minmax(84px,1fr))}
+.calendar .cell{min-height:110px; padding:8px}
+
+/* Day tags: better wrapping on small screens */
+.tags{gap:6px}
+.tag{padding:6px 10px; font-size:12px}
+
+/* Adaptive cards */
+.card{padding:16px}
+
+/* Typography scales with clamp */
+.h1{font-size:clamp(20px, 3.2vw, 28px)}
+.kicker{font-size:clamp(12px, 2.4vw, 14px)}
+.p{font-size:clamp(13px, 2.8vw, 15px)}
+
+/* Grid auto-fill tiles: smaller minimum on phones */
+.grid.auto-fill{grid-template-columns:repeat(auto-fill, minmax(180px,1fr))}
+
+/* Breakpoints */
+@media (max-width: 768px){
+  .nav-actions{gap:8px; flex-wrap:wrap}
+  .btn{padding:10px 12px}
+  .calendar .cell .date{font-size:12px}
+}
+
+@media (max-width: 540px){
+  .navbar{flex-wrap:wrap; gap:8px}
+  .brand{font-size:16px}
+  .calendar .grid.cols-7{grid-template-columns:repeat(7, minmax(72px,1fr))}
+  .calendar .cell{min-height:96px; padding:6px}
+  .home-actions{gap:8px}
+}
+
+
+/* Navbar layout */
+.navbar{display:flex; align-items:center; justify-content:space-between; padding:12px 0; gap:16px}
+.nav-left{display:flex; align-items:center; gap:10px}
+.logo{height:48px; width:auto; border-radius:8px}
+.desktop-only{display:flex; gap:10px; align-items:center}
+.mobile-only{display:none}
+
+.btn.sm{padding:8px 10px; min-height:40px; font-size:14px}
+
+/* Monthly calendar: desktop default */
+#month-head{display:grid}
+.calendar .grid.cols-7{grid-template-columns:repeat(7,1fr)}
+.calendar .cell .meal{font-size:14px; line-height:1.35}
+
+/* Responsive overrides */
+@media (max-width: 680px){
+  .desktop-only{display:none}
+  .mobile-only{display:flex; gap:8px; padding:8px 0; flex-wrap:nowrap; justify-content:center}
+  .logo{height:56px}
+  .brand{font-size:18px; font-weight:800}
+
+  /* Month view: switch to 2-column cards and hide weekday header */
+  #month-head{display:none}
+  .calendar .grid.cols-7{grid-template-columns:repeat(2, minmax(0,1fr)); gap:10px}
+  .calendar .cell{min-height:auto; padding:10px}
+  .calendar .cell .date{font-size:14px}
+  .calendar .cell .meal{font-size:13px}
+}
