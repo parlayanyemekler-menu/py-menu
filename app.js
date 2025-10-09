@@ -209,7 +209,7 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 // NEW: Günlük tek görsel yolu (Ekim = 10)
 function dayImagePath(isoStr){
-  // "2025-10-01" → d = 1  → /images/daily/1_10.png
+  // "2025-10-01" → d = 1  → //py-menu/images/daily/1_10.png
   const parts = isoStr.split('-'); 
   const d = Number(parts[2]);
   const m = Number(parts[1]); // istersen genellemek için kullan
