@@ -207,3 +207,106 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+// NEW: Günlük tek görsel yolu (Ekim = 10)
+function dayImagePath(isoStr){
+  // "2025-10-01" → d = 1  → /images/daily/1_10.png
+  const parts = isoStr.split('-'); 
+  const d = Number(parts[2]);
+  const m = Number(parts[1]); // istersen genellemek için kullan
+  return `/images/daily/${d}_10.png`;
+}
+async function renderDay(isoStr){
+  const data = await loadData();
+  const meals = data[isoStr] || [];
+  const dayImg = dayImagePath(isoStr);
+
+  document.getElementById('app').innerHTML = `
+    <section class="grid">
+      <div class="card">
+        <div class="kicker">${fmtDate(isoStr)}</div>
+        <h1 class="h1">Günlük Menü</h1>
+
+        <!-- NEW: Gün görseli (sadece günlükte) -->
+        <div class="day-hero">
+          <img src="${dayImg}" alt="${isoStr} gün görseli" loading="lazy"
+               onerror="this.closest('.day-hero').style.display='none'">
+        </div>
+
+        <ul class="meal-list">
+          ${meals.length 
+            ? meals.map(m=>`<li>${m}</li>`).join('')
+            : `<li style="color:var(--muted)">Menü eklenmedi</li>`}
+        </ul>
+
+        <div class="home-actions" style="margin-top:12px">
+          <a class="btn" href="#/week/2025-10/${getWeekOfDate(isoStr)}">Haftaya Dön</a>
+          <a class="btn" href="#/month/2025-10">Aylığa Dön</a>
+        </div>
+      </div>
+    </section>
+  `;
+
+  ensureDayHeroStyles();
+}
+
+// NEW: mobil odaklı stil
+function ensureDayHeroStyles(){
+  if (document.getElementById('day-hero-styles')) return;
+  const s = document.createElement('style');
+  s.id = 'day-hero-styles';
+  s.textContent = `
+    /* GÜNLÜK SAYFA HERO GÖRSELİ — MOBİL + WEB UYUMLU */
+.day-hero{
+  margin: 10px 0 14px;
+}
+.day-hero picture, 
+.day-hero img{
+  display: block;
+  width: 100%;
+}
+
+/* Küçük ekranlar: tam genişlik, yüksekliği ferah tut (ekranın %70’i) */
+@media (max-width: 520px){
+  .day-hero img{
+    max-height: 70vh;
+    height: auto;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid #eee;
+  }
+}
+
+/* Tablet: kart genişliğine göre dengeli yükseklik */
+@media (min-width: 521px) and (max-width: 1024px){
+  .day-hero img{
+    max-height: 520px;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 14px;
+    border: 1px solid #eee;
+    box-shadow: 0 8px 24px rgba(0,0,0,.06);
+  }
+}
+
+/* Masaüstü ve üstü: geniş ama taşmayan, orantılı kırpma */
+@media (min-width: 1025px){
+  .day-hero{
+    /* kart içerikleri merkezliyse hoş durur; yoksa kaldırabilirsin */
+  }
+  .day-hero img{
+    max-height: 620px;       /* büyük ekranlara yakışan tavan */
+    width: 100%;
+    height: auto;
+    object-fit: cover;       /* görsel farklı oranlarda olsa da estetik */
+    border-radius: 16px;
+    border: 1px solid #eee;
+    box-shadow: 0 10px 28px rgba(0,0,0,.07);
+  }
+}
+
+  `;
+  document.head.appendChild(s);
+}
+
+
