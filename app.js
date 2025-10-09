@@ -213,7 +213,7 @@ function dayImagePath(isoStr){
   const parts = isoStr.split('-'); 
   const d = Number(parts[2]);
   const m = Number(parts[1]); // istersen genellemek için kullan
-  return `/images/daily/${d}_10.png`;
+  return `/py-menu/images/daily/${d}_10.png`;
 }
 async function renderDay(isoStr){
   const data = await loadData();
